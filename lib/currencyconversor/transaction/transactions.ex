@@ -1,4 +1,4 @@
-defmodule Currencyconversor.Tansactions.Transactions do
+defmodule Currencyconversor.Transaction.Transactions do
   use Ecto.Schema
   import Ecto.Changeset
 

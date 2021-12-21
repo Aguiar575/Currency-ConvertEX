@@ -1,7 +1,7 @@
-defmodule Currencyconversor.TansactionsFixtures do
+defmodule Currencyconversor.TransactionFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Currencyconversor.Tansactions` context.
+  entities via the `Currencyconversor.Transaction` context.
   """
 
   @doc """
@@ -17,7 +17,7 @@ defmodule Currencyconversor.TansactionsFixtures do
         originCurrencyValue: 42,
         userId: 42
       })
-      |> Currencyconversor.Tansactions.create_transactions()
+      |> Currencyconversor.Transaction.create_transactions()
 
     transactions
   end

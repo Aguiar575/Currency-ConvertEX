@@ -1,12 +1,12 @@
-defmodule Currencyconversor.Tansactions do
+defmodule Currencyconversor.Transaction do
   @moduledoc """
-  The Tansactions context.
+  The Transaction context.
   """
 
   import Ecto.Query, warn: false
   alias Currencyconversor.Repo
 
-  alias Currencyconversor.Tansactions.Transactions
+  alias Currencyconversor.Transaction.Transactions
 
   @doc """
   Returns the list of transactions.
