@@ -7,8 +7,10 @@ defmodule  Currencyconversor.Conversor do
     cond do
       amount <= 0 or not is_number(amount) ->
         %{error: "Amount must be an number bigger than 0"}
-      not is_valid_currency?(from) or not is_valid_currency?(to) ->
-        %{error: "Invalid currency"}
+      not is_valid_currency?(from) ->
+        %{error: "Invalid currency: 'from'"}
+      not is_valid_currency?(to) ->
+        %{error: "Invalid currency: 'to'"}
       true ->
         body =
         get_conversion()
