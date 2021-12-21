@@ -2,6 +2,8 @@ defmodule Currencyconversor.Tansactions.Transactions do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @required_params [:userId, :originCurrency, :originCurrencyValue, :destinationCurrency, :conversionFee]
+
   schema "transactions" do
     field :conversionFee, :integer
     field :destinationCurrency, :string
@@ -15,7 +17,7 @@ defmodule Currencyconversor.Tansactions.Transactions do
   @doc false
   def changeset(transactions, attrs) do
     transactions
-    |> cast(attrs, [:userId, :originCurrency, :originCurrencyValue, :destinationCurrency, :conversionFee])
-    |> validate_required([:userId, :originCurrency, :originCurrencyValue, :destinationCurrency, :conversionFee])
+    |> cast(attrs, @required_params)
+    |> validate_required(@required_params)
   end
 end
