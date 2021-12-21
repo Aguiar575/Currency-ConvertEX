@@ -8,7 +8,7 @@ erl_crash.dump
 *.beam
 /config/*.secret.exs
 .elixir_ls/
-
+.env
 # Ignore package tarball (built via "mix hex.build").
 currencyconversor-*.tar
 
@@ -18,4 +18,5 @@ currencyconversor-*.tar
 
 #mac
 .DS_Store
+
 
