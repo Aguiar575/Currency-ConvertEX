@@ -11,7 +11,7 @@ defmodule  Currencyconversor.Conversor do
         %{error: "Invalid currency"}
       true ->
         body =
-        get_conversion(to)
+        get_conversion()
         |> get_conversion_body()
         |> IO.inspect()
 
@@ -34,19 +34,17 @@ defmodule  Currencyconversor.Conversor do
   @spec retun_key :: nil | binary
   defp retun_key(), do: System.get_env("CURRENCY_API_KEY")
 
-  @spec get_conversion(binary) :: any
-  def get_conversion(symbol) when is_binary(symbol) do
-    HTTPoison.get!("http://api.exchangeratesapi.io/v1/latest?access_key=#{retun_key()}&base=EUR&symbols=#{symbol}")
-  end
-
-  def get_conversion(symbol) when not is_binary(symbol) do
-    %{error: "invalid symbol"}
+  def get_conversion() do
+    HTTPoison.get!("http://api.exchangeratesapi.io/v1/latest?access_key=#{retun_key()}&base=EUR&symbols=BRL,USD,JPY")
   end
 
   @spec get_converted_amount(binary, binary, number, map) :: number | %{error: <<_::128, _::_*96>>}
   def get_converted_amount(from, to, amount, conversion_body) do
     case from do
       "EUR" -> convert_to_euro(to, amount, conversion_body)
+      "BRL" -> convert_value_from_euro(amount, conversion_body["rates"]["BRL"])
+      "USD" -> convert_value_from_euro(amount, conversion_body["rates"]["USD"])
+      "JPY" -> convert_value_from_euro(amount, conversion_body["rates"]["JPY"])
       _ -> %{error: "Invalid currency"}
     end
   end
@@ -62,6 +60,9 @@ defmodule  Currencyconversor.Conversor do
     end
   end
 
-  defp convert_value_to_euro(amount, rate), do: (amount * rate) |> Float.ceil(2)
-  defp convert_value_from_euro(amount, rate), do: (amount / rate) |> Float.ceil(2)
+  defp convert_value_to_euro(amount, rate), do: (amount * rate) |> Float.round(2)
+  defp convert_value_from_euro(amount, rate) do
+    unit = 1 / rate
+    (amount * unit) |> Float.round(2)
+  end
 end
