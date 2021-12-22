@@ -13,7 +13,7 @@ defmodule  Currencyconversor.Conversor do
               to: to,
               amount: :erlang.float_to_binary(amount_f, decimals: 2),
               converted: :erlang.float_to_binary(converted, decimals: 2),
-              currency_rate: get_currency_rate(to, Jason.decode!(body))
+              currency_rate: get_currency_rate(from, to, Jason.decode!(body))
             }
           }
       %HTTPoison.Response{status_code: _, body: body} ->
@@ -24,9 +24,9 @@ defmodule  Currencyconversor.Conversor do
     end
   end
 
-  def get_currency_rate(to, body) do
+  def get_currency_rate(from, to, body) do
     if String.upcase(to) == "EUR" do
-      "1.0"
+      1 / body["rates"][String.upcase(from)] |> :erlang.float_to_binary(decimals: 6)
     else
       body["rates"][String.upcase(to)] |> :erlang.float_to_binary(decimals: 6)
     end
