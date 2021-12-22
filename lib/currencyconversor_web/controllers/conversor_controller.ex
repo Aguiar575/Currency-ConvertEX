@@ -23,6 +23,11 @@ defmodule CurrencyconversorWeb.ConversorController do
         |> put_status(:bad_request)
         |> json(%{error: "'user_id' is required"})
 
+      not is_number_valid?(params["user_id"]) ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "'user_id' must be a number"})
+
       params["from"] in ["", nil] ->
         conn
         |> put_status(:bad_request)
@@ -48,7 +53,7 @@ defmodule CurrencyconversorWeb.ConversorController do
         |> put_status(:bad_request)
         |> json(%{error: "'amount' is required"})
 
-      not is_amount_valid?(params["amount"]) ->
+      not is_number_valid?(params["amount"]) ->
         conn
         |> put_status(:bad_request)
         |> json(%{error: "'amount' must be a number"})
@@ -68,12 +73,15 @@ defmodule CurrencyconversorWeb.ConversorController do
     end
   end
 
-  @spec is_amount_valid?(binary) :: boolean
-  def is_amount_valid?(amount) do
-    case Float.parse(amount) do
-      :error ->
+  @spec is_number_valid?(binary) :: boolean
+  def is_number_valid?(amount) do
+    float = Float.parse(amount)
+    cond do
+      float == :error ->
         false
-      _ ->
+      float |> elem(1) != "" ->
+        false
+      true ->
         true
     end
   end
