@@ -30,7 +30,7 @@ defmodule  Currencyconversor.Conversor do
     end
   end
 
-  defp retun_key(), do: System.get_env("CURRENCY_API_KEY")
+  defp retun_key(), do: Application.fetch_env!(:currencyconversor, :api_key)
 
   def get_conversion() do
     HTTPoison.get!("http://api.exchangeratesapi.io/v1/latest?access_key=#{retun_key()}&base=EUR&symbols=BRL,USD,JPY")
