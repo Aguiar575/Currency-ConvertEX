@@ -5,11 +5,11 @@ defmodule Currencyconversor.Transaction.Transactions do
   @required_params [:user_id, :origin_currency, :origin_currency_value, :destination_currency, :conversion_rate]
 
   schema "transactions" do
-    field :conversion_rate, :integer
+    field :conversion_rate, :string
     field :destination_currency, :string
     field :origin_currency, :string
-    field :origin_currency_value, :integer
-    field :user_id, :integer
+    field :origin_currency_value, :string
+    field :user_id, :string
 
     timestamps()
   end

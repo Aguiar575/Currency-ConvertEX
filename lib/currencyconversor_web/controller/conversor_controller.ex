@@ -33,11 +33,11 @@ defmodule CurrencyconversorWeb.ConversorController do
 
   defp convert_to(conn, params) do
     conversion = Conversor.convert_to(params["from"], params["to"], params["amount"])
-    valid_attrs = %{  conversion_rate: 42,
+    valid_attrs = %{  conversion_rate: "42",
                       destination_currency: "some destination_currency",
                       origin_currency: "some origin_currency",
-                      origin_currency_value: 42,
-                      user_id: 42}
+                      origin_currency_value: "42",
+                      user_id: "42"}
     {:ok, %Transactions{} = transactions} = Transaction.create_transactions(valid_attrs)
     conn
     |> put_status(:ok)
