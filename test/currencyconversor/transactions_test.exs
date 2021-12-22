@@ -8,7 +8,7 @@ defmodule Currencyconversor.TransactionTest do
 
     import Currencyconversor.TransactionFixtures
 
-    @invalid_attrs %{conversionFee: nil, destinationCurrency: nil, originCurrency: nil, originCurrencyValue: nil, userId: nil}
+    @invalid_attrs %{conversion_rate: nil, destination_currency: nil, origin_currency: nil, origin_currency_value: nil, user_id: nil}
 
     test "list_transactions/0 returns all transactions" do
       transactions = transactions_fixture()
@@ -21,14 +21,14 @@ defmodule Currencyconversor.TransactionTest do
     end
 
     test "create_transactions/1 with valid data creates a transactions" do
-      valid_attrs = %{conversionFee: 42, destinationCurrency: "some destinationCurrency", originCurrency: "some originCurrency", originCurrencyValue: 42, userId: 42}
+      valid_attrs = %{conversion_rate: 42, destination_currency: "some destination_currency", origin_currency: "some origin_currency", origin_currency_value: 42, user_id: 42}
 
       assert {:ok, %Transactions{} = transactions} = Transaction.create_transactions(valid_attrs)
-      assert transactions.conversionFee == 42
-      assert transactions.destinationCurrency == "some destinationCurrency"
-      assert transactions.originCurrency == "some originCurrency"
-      assert transactions.originCurrencyValue == 42
-      assert transactions.userId == 42
+      assert transactions.conversion_rate == 42
+      assert transactions.destination_currency == "some destination_currency"
+      assert transactions.origin_currency == "some origin_currency"
+      assert transactions.origin_currency_value == 42
+      assert transactions.user_id == 42
     end
 
     test "create_transactions/1 with invalid data returns error changeset" do
@@ -37,14 +37,14 @@ defmodule Currencyconversor.TransactionTest do
 
     test "update_transactions/2 with valid data updates the transactions" do
       transactions = transactions_fixture()
-      update_attrs = %{conversionFee: 43, destinationCurrency: "some updated destinationCurrency", originCurrency: "some updated originCurrency", originCurrencyValue: 43, userId: 43}
+      update_attrs = %{conversion_rate: 43, destination_currency: "some updated destination_currency", origin_currency: "some updated origin_currency", origin_currency_value: 43, user_id: 43}
 
       assert {:ok, %Transactions{} = transactions} = Transaction.update_transactions(transactions, update_attrs)
-      assert transactions.conversionFee == 43
-      assert transactions.destinationCurrency == "some updated destinationCurrency"
-      assert transactions.originCurrency == "some updated originCurrency"
-      assert transactions.originCurrencyValue == 43
-      assert transactions.userId == 43
+      assert transactions.conversion_rate == 43
+      assert transactions.destination_currency == "some updated destination_currency"
+      assert transactions.origin_currency == "some updated origin_currency"
+      assert transactions.origin_currency_value == 43
+      assert transactions.user_id == 43
     end
 
     test "update_transactions/2 with invalid data returns error changeset" do

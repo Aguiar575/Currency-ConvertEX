@@ -3,11 +3,11 @@ defmodule Currencyconversor.Repo.Migrations.CreateTransactions do
 
   def change do
     create table(:transactions) do
-      add :userId, :integer
-      add :originCurrency, :string
-      add :originCurrencyValue, :integer
-      add :destinationCurrency, :string
-      add :conversionFee, :integer
+      add :user_id, :integer
+      add :origin_currency, :string
+      add :origin_currency_value, :integer
+      add :destination_currency, :string
+      add :conversion_rate, :integer
 
       timestamps()
     end

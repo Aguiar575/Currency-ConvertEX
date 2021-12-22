@@ -2,14 +2,14 @@ defmodule Currencyconversor.Transaction.Transactions do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_params [:userId, :originCurrency, :originCurrencyValue, :destinationCurrency, :conversionFee]
+  @required_params [:user_id, :origin_currency, :origin_currency_value, :destination_currency, :conversion_rate]
 
   schema "transactions" do
-    field :conversionFee, :integer
-    field :destinationCurrency, :string
-    field :originCurrency, :string
-    field :originCurrencyValue, :integer
-    field :userId, :integer
+    field :conversion_rate, :integer
+    field :destination_currency, :string
+    field :origin_currency, :string
+    field :origin_currency_value, :integer
+    field :user_id, :integer
 
     timestamps()
   end

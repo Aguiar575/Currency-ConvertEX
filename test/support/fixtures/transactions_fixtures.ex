@@ -11,11 +11,11 @@ defmodule Currencyconversor.TransactionFixtures do
     {:ok, transactions} =
       attrs
       |> Enum.into(%{
-        conversionFee: 42,
-        destinationCurrency: "some destinationCurrency",
-        originCurrency: "some originCurrency",
-        originCurrencyValue: 42,
-        userId: 42
+        conversion_rate: 42,
+        destination_currency: "some destination_currency",
+        origin_currency: "some origin_currency",
+        origin_currency_value: 42,
+        user_id: 42
       })
       |> Currencyconversor.Transaction.create_transactions()
 
