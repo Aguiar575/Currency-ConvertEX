@@ -2,8 +2,9 @@ defmodule  Currencyconversor.Conversor do
 
   @allow_currencies ["BRL","USD", "EUR", "JPY"]
 
-  @spec convert_to(binary, binary, number) :: %{error: <<_::128, _::_*96>>}
+  @spec convert_to(binary, binary, binary) :: %{error: <<_::128, _::_*96>>}
   def convert_to(from, to, amount) do
+    amount = Integer.parse(amount) |> elem(0)
     cond do
       amount <= 0 or not is_number(amount) ->
         %{error: "Amount must be an number bigger than 0"}
@@ -12,12 +13,7 @@ defmodule  Currencyconversor.Conversor do
       not is_valid_currency?(to) ->
         %{error: "Invalid currency: 'to'"}
       true ->
-        body =
-        get_conversion()
-        |> get_conversion_body()
-        |> IO.inspect()
-
-        get_converted_amount(from, to , amount, body)
+        handle_conversion(from, to, amount)
     end
   end
 
@@ -26,12 +22,16 @@ defmodule  Currencyconversor.Conversor do
     String.length(currency) == 3 and Enum.member?(@allow_currencies, String.upcase(currency))
   end
 
-  @spec get_conversion_body(HTTPoison.Response.t()) :: any
-  defp get_conversion_body(%HTTPoison.Response{status_code: 200, body: body}) do
-    Jason.decode!(body)
+  @spec handle_conversion(binary, binary, number) :: any
+  def handle_conversion(from, to, amount) do
+    case get_conversion() do
+      %HTTPoison.Response{status_code: 200, body: body} ->
+        get_converted_amount(from, to , amount, Jason.decode!(body))
+      %HTTPoison.Response{status_code: _, body: body} ->
+        Jason.decode!(body)
+      _ -> %{error: "Error while trying to get conection with API"}
+    end
   end
-
-  defp get_conversion_body(%HTTPoison.Response{status_code: _, body: body}), do: body
 
   @spec retun_key :: nil | binary
   defp retun_key(), do: System.get_env("CURRENCY_API_KEY")
