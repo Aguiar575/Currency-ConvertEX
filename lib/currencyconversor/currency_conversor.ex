@@ -4,7 +4,7 @@ defmodule  Currencyconversor.Conversor do
 
   @spec convert_to(binary, binary, binary) :: %{error: <<_::128, _::_*96>>}
   def convert_to(from, to, amount) do
-    amount = Integer.parse(amount) |> elem(0)
+    amount = Float.parse(amount) |> elem(0)
     cond do
       amount <= 0 or not is_number(amount) ->
         %{error: "Amount must be an number bigger than 0"}
@@ -12,6 +12,8 @@ defmodule  Currencyconversor.Conversor do
         %{error: "Invalid currency: 'from'"}
       not is_valid_currency?(to) ->
         %{error: "Invalid currency: 'to'"}
+      String.upcase(from) != "EUR" && String.upcase(to) != "EUR" ->
+        %{error: "invalid currency conversion"}
       true ->
         handle_conversion(from, to, amount)
     end
@@ -70,7 +72,7 @@ defmodule  Currencyconversor.Conversor do
 
   defp convert_value_to_euro(amount, rate), do: (amount * rate) |> Float.round(2)
   defp convert_value_from_euro(amount, rate) do
-    unit = 1 / rate
+    unit =  if rate == 1, do: 1, else: 1 / rate
     (amount * unit) |> Float.round(2)
   end
 end
