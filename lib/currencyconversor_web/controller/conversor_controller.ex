@@ -6,6 +6,16 @@ defmodule CurrencyconversorWeb.ConversorController do
 
   @allow_currencies ["BRL","USD", "EUR", "JPY"]
 
+  @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def show(conn, %{"id" => id}) do
+    transaction = Transaction.get_by_user_id!(id)
+
+    conn
+    |> put_status(:ok)
+    |> render("show.json", transaction: transaction)
+  end
+
+  @spec convert(Plug.Conn.t(), nil | maybe_improper_list | map) :: Plug.Conn.t()
   def convert(conn, params) do
     cond do
       params["user_id"] in ["", nil] ->
@@ -93,25 +103,16 @@ defmodule CurrencyconversorWeb.ConversorController do
   end
 
   defp return_conversion(conn, transaction, user_id) do
-    transactions_map = %{ conversion_rate: transaction.currency_rate,
+    transaction_map = %{ conversion_rate: transaction.currency_rate,
                           destination_currency: transaction.to,
                           origin_currency: transaction.from,
                           origin_currency_value: transaction.amount,
                           user_id: user_id
                         }
-    IO.inspect(transactions_map)
-    {:ok, %Transactions{} = transactions} = Transaction.create_transactions(transactions_map)
+    {:ok, %Transactions{} = transaction_db} = Transaction.create_transactions(transaction_map)
+
     conn
     |> put_status(:ok)
-    |> json(%{
-      transaction_id: transactions.id,
-      user_id: transactions.user_id,
-      origin_currency: transactions.origin_currency,
-      origin_currency_value: transactions.origin_currency_value,
-      destination_currency: transactions.destination_currency,
-      destination_currency_value: transaction.converted,
-      conversion_rate: transactions.conversion_rate,
-      date_time: transactions.inserted_at
-    })
+    |> render("convert.json", transaction: transaction_db, converted_value: transaction.converted)
   end
 end
