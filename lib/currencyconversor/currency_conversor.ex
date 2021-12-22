@@ -26,7 +26,13 @@ defmodule  Currencyconversor.Conversor do
   def handle_conversion(from, to, amount) do
     case get_conversion() do
       %HTTPoison.Response{status_code: 200, body: body} ->
-        get_converted_amount(from, to , amount, Jason.decode!(body))
+        converted = get_converted_amount(from, to , amount, Jason.decode!(body))
+        %{  "from" => from,
+            "to" => to,
+            "amount" => amount,
+            "converted" => converted,
+            "currency_rate" => Jason.decode!(body)["rates"][to]
+          }
       %HTTPoison.Response{status_code: _, body: body} ->
         Jason.decode!(body)
       _ -> %{error: "Error while trying to get conection with API"}
