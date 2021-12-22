@@ -4,9 +4,7 @@ defmodule  Currencyconversor.Conversor do
     amount_f = Float.parse(amount) |> elem(0)
     case get_conversion() do
       %HTTPoison.Response{status_code: 200, body: body} ->
-        IO.inspect(body)
         converted = get_converted_amount(from, to , amount_f, Jason.decode!(body))
-        IO.inspect(converted)
         %{
           status: :success,
           transaction: %{  from: from,
