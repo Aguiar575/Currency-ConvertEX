@@ -122,5 +122,10 @@ defmodule CurrencyconversorWeb.ConversorControllerTest do
         return = ConversorController.amount_is_bigger_than_zero?("1")
         assert return == true
       end
+
+      test "should return false"  do
+        return = ConversorController.amount_is_bigger_than_zero?("0")
+        assert return == false
+      end
     end
 end

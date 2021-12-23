@@ -47,6 +47,7 @@ defmodule  Currencyconversor.Conversor do
       "BRL" -> convert_value_from_euro(amount_f, conversion_body["rates"]["BRL"])
       "USD" -> convert_value_from_euro(amount_f, conversion_body["rates"]["USD"])
       "JPY" -> convert_value_from_euro(amount_f, conversion_body["rates"]["JPY"])
+      _ -> %{error: "invalid currency"}
     end
   end
 
@@ -56,14 +57,15 @@ defmodule  Currencyconversor.Conversor do
       "USD" -> convert_value_to_euro(amount_f, conversion_body["rates"]["USD"])
       "JPY" -> convert_value_to_euro(amount_f, conversion_body["rates"]["JPY"])
       "EUR" -> amount_f
+      _ -> %{error: "invalid currency"}
     end
   end
 
-  defp convert_value_to_euro(amount_f, rate) when is_float(amount_f) do
+  defp convert_value_to_euro(amount_f, rate) do
     (amount_f * rate) |> Float.round(2)
   end
 
-  defp convert_value_from_euro(amount_f, rate) when is_float(amount_f) do
+  defp convert_value_from_euro(amount_f, rate) do
     unit =  if rate == 1, do: 1, else: 1 / rate
     (amount_f * unit) |> Float.round(2)
   end
