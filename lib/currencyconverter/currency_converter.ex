@@ -1,5 +1,26 @@
 defmodule  Currencyconverter.Converter do
+  @moduledoc """
+    this module connects to the external currency conversion api (https://exchangeratesapi.io/documentation/).
+  """
 
+  @doc """
+  converts the amount of a certain currency (from) to the selected currency (to).
+  Returns a map with status :success or :error depending on the parameters of the conversion.
+
+  ## Examples
+
+      iex> convert_to("BRL", "EUR", "1")
+      %{
+        status: :success,
+        transaction: %{
+          amount: "1.00",
+          converted: "0.16",
+          currency_rate: "0.155594",
+          from: "BRL",
+          to: "EUR"
+        }
+      }
+  """
   def convert_to(from, to, amount) do
     amount_f = amount |> String.replace(",", ".") |> Float.parse() |> elem(0)
     from = String.upcase(from)
@@ -24,6 +45,21 @@ defmodule  Currencyconverter.Converter do
     end
   end
 
+  @doc """
+  get the curency rate based on return of the external api.
+
+  ## Examples
+      iex> external_api_return = %{
+      ...>           "base" => "EUR",
+      ...>           "date" => "2021-12-22",
+      ...>           "rates" => %{"BRL" => 6.422379, "JPY" => 129.338451, "USD" => 1.132496},
+      ...>           "success" => true,
+      ...>           "timestamp" => 1640199543
+      ...>         }
+
+      iex> get_currency_rate("BRL", "EUR", external_api_return)
+      "0.155706"
+  """
   def get_currency_rate(from, to, body) do
     cond do
       String.upcase(to) == "EUR" and String.upcase(from) != "EUR" ->
@@ -37,10 +73,26 @@ defmodule  Currencyconverter.Converter do
 
   defp retun_key(), do: Application.fetch_env!(:currencyconverter, :api_key)
 
-  def get_conversion() do
+  defp get_conversion() do
     HTTPoison.get!("http://api.exchangeratesapi.io/v1/latest?access_key=#{retun_key()}&base=EUR&symbols=BRL,USD,JPY")
   end
 
+  @doc """
+  converts the value of a origin currency (BRL, JPY, USD, EUR) to EUR.
+  (origin value x currency rate)
+
+  ## Examples
+      iex> external_api_return = %{
+      ...>           "base" => "EUR",
+      ...>           "date" => "2021-12-22",
+      ...>           "rates" => %{"BRL" => 6.422379, "JPY" => 129.338451, "USD" => 1.132496},
+      ...>           "success" => true,
+      ...>           "timestamp" => 1640199543
+      ...>         }
+
+      iex> get_converted_amount("BRL", "EUR", 5.0, external_api_return)
+      0.78
+  """
   def get_converted_amount(from, to, amount_f, conversion_body) do
     case from do
       "EUR" -> convert_to_euro(to, amount_f, conversion_body)
@@ -51,6 +103,22 @@ defmodule  Currencyconverter.Converter do
     end
   end
 
+  @doc """
+  converts the value of a EUR currency to another selected currency (BRL, JPY, USD, EUR).
+  (EUR value x selected currency rate)
+
+  ## Examples
+      iex> external_api_return = %{
+      ...>           "base" => "EUR",
+      ...>           "date" => "2021-12-22",
+      ...>           "rates" => %{"BRL" => 6.422379, "JPY" => 129.338451, "USD" => 1.132496},
+      ...>           "success" => true,
+      ...>           "timestamp" => 1640199543
+      ...>         }
+
+      iex> convert_to_euro("BRL", 5.0, external_api_return)
+      32.11
+  """
   def convert_to_euro(to, amount_f, conversion_body) do
     case to do
       "BRL" -> convert_value_to_euro(amount_f, conversion_body["rates"]["BRL"])
