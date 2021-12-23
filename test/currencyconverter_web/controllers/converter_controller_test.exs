@@ -2,10 +2,6 @@ defmodule CurrencyconverterWeb.ConverterControllerTest do
     use CurrencyconverterWeb.ConnCase
     alias CurrencyconverterWeb.ConverterController
 
-    setup %{conn: conn} do
-      {:ok, conn: put_req_header(conn, "accept", "application/json")}
-    end
-
     describe "convert" do
       test "should return user_id error", %{conn: conn} do
         conn = post(conn, "/api/convert?from=usd&to=brl&amount=1")
