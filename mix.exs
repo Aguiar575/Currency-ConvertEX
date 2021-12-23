@@ -3,7 +3,7 @@ defmodule Currencyconversor.MixProject do
 
   def project do
     [
-      app: :currencyconversor,
+      app: :currencyconverter,
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),

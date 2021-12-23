@@ -7,11 +7,11 @@
 # General application configuration
 import Config
 
-config :currencyconversor,
+config :currencyconverter,
   ecto_repos: [Currencyconversor.Repo]
 
 # Configures the endpoint
-config :currencyconversor, CurrencyconversorWeb.Endpoint,
+config :currencyconverter, CurrencyconversorWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: CurrencyconversorWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: Currencyconversor.PubSub,

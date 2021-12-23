@@ -30,7 +30,7 @@ defmodule CurrencyconversorWeb do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/currencyconversor_web/templates",
+        root: "lib/currencyconverter_web/templates",
         namespace: CurrencyconversorWeb
 
       # Import convenience functions from controllers

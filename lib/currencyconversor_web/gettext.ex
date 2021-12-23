@@ -20,5 +20,5 @@ defmodule CurrencyconversorWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :currencyconversor
+  use Gettext, otp_app: :currencyconverter
 end

@@ -31,23 +31,23 @@ defmodule CurrencyconversorWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("currencyconversor.repo.query.total_time",
+      summary("currencyconverter.repo.query.total_time",
         unit: {:native, :millisecond},
         description: "The sum of the other measurements"
       ),
-      summary("currencyconversor.repo.query.decode_time",
+      summary("currencyconverter.repo.query.decode_time",
         unit: {:native, :millisecond},
         description: "The time spent decoding the data received from the database"
       ),
-      summary("currencyconversor.repo.query.query_time",
+      summary("currencyconverter.repo.query.query_time",
         unit: {:native, :millisecond},
         description: "The time spent executing the query"
       ),
-      summary("currencyconversor.repo.query.queue_time",
+      summary("currencyconverter.repo.query.queue_time",
         unit: {:native, :millisecond},
         description: "The time spent waiting for a database connection"
       ),
-      summary("currencyconversor.repo.query.idle_time",
+      summary("currencyconverter.repo.query.idle_time",
         unit: {:native, :millisecond},
         description:
           "The time the connection spent waiting before being checked out for the query"
