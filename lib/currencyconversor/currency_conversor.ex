@@ -1,4 +1,4 @@
-defmodule  Currencyconverter.Conversor do
+defmodule  Currencyconverter.Converter do
 
   def convert_to(from, to, amount) do
     amount_f = amount |> String.replace(",", ".") |> Float.parse() |> elem(0)

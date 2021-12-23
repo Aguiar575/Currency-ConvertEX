@@ -1,4 +1,4 @@
-defmodule CurrencyconverterWeb.ConversorView do
+defmodule CurrencyconverterWeb.ConverterView do
   use CurrencyconverterWeb, :view
 
   def render("show.json", %{transaction: transaction}) do

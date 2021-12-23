@@ -1,6 +1,6 @@
-defmodule CurrencyconverterWeb.ConversorControllerTest do
+defmodule CurrencyconverterWeb.ConverterControllerTest do
     use CurrencyconverterWeb.ConnCase
-    alias CurrencyconverterWeb.ConversorController
+    alias CurrencyconverterWeb.ConverterController
 
     setup %{conn: conn} do
       {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -65,66 +65,66 @@ defmodule CurrencyconverterWeb.ConversorControllerTest do
 
     describe "is_number_valid?" do
       test "should return true 1"  do
-        return = ConversorController.is_number_valid?("1")
+        return = ConverterController.is_number_valid?("1")
         assert return == true
       end
 
       test "should return true 2"  do
-        return = ConversorController.is_number_valid?("1.1")
+        return = ConverterController.is_number_valid?("1.1")
         assert return == true
       end
 
       test "should return false 1"  do
-        return = ConversorController.is_number_valid?("asdas")
+        return = ConverterController.is_number_valid?("asdas")
         assert return == false
       end
 
       test "should return false 2"  do
-        return = ConversorController.is_number_valid?("10,asdas")
+        return = ConverterController.is_number_valid?("10,asdas")
         assert return == false
       end
     end
 
     describe "is_valid_currency?" do
       test "should return true 1"  do
-        return = ConversorController.is_valid_currency?("BRL")
+        return = ConverterController.is_valid_currency?("BRL")
         assert return == true
       end
 
       test "should return true 2"  do
-        return = ConversorController.is_valid_currency?("JPY")
+        return = ConverterController.is_valid_currency?("JPY")
         assert return == true
       end
 
       test "should return true 3"  do
-        return = ConversorController.is_valid_currency?("USD")
+        return = ConverterController.is_valid_currency?("USD")
         assert return == true
       end
 
       test "should return true 4"  do
-        return = ConversorController.is_valid_currency?("EUR")
+        return = ConverterController.is_valid_currency?("EUR")
         assert return == true
       end
 
       test "should return false 1"  do
-        return = ConversorController.is_valid_currency?("JOI")
+        return = ConverterController.is_valid_currency?("JOI")
         assert return == false
       end
 
       test "should return false 2"  do
-        return = ConversorController.is_valid_currency?("US")
+        return = ConverterController.is_valid_currency?("US")
         assert return == false
       end
     end
 
     describe "amount_is_bigger_than_zero?" do
       test "should return true"  do
-        return = ConversorController.amount_is_bigger_than_zero?("1")
+        return = ConverterController.amount_is_bigger_than_zero?("1")
         assert return == true
       end
 
       test "should return false"  do
-        return = ConversorController.amount_is_bigger_than_zero?("0")
+        return = ConverterController.amount_is_bigger_than_zero?("0")
         assert return == false
       end
     end
