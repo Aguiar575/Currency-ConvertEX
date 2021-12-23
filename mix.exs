@@ -1,4 +1,4 @@
-defmodule Currencyconversor.MixProject do
+defmodule Currencyconverter.MixProject do
   use Mix.Project
 
   def project do
@@ -19,7 +19,7 @@ defmodule Currencyconversor.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Currencyconversor.Application, []},
+      mod: {Currencyconverter.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

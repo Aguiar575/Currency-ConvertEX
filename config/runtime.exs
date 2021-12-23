@@ -9,7 +9,7 @@ import Config
 
 # Start the phoenix server if environment is set and running in a  release
 if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
-  config :currencyconverter, CurrencyconversorWeb.Endpoint, server: true
+  config :currencyconverter, CurrencyconverterWeb.Endpoint, server: true
 end
 
 if config_env() == :prod do
@@ -20,7 +20,7 @@ if config_env() == :prod do
       For example: /etc/currencyconverter/currencyconverter.db
       """
 
-  config :currencyconverter, Currencyconversor.Repo,
+  config :currencyconverter, Currencyconverter.Repo,
     database: database_path,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "5")
 
@@ -39,7 +39,7 @@ if config_env() == :prod do
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
-  config :currencyconverter, CurrencyconversorWeb.Endpoint,
+  config :currencyconverter, CurrencyconverterWeb.Endpoint,
     url: [host: host, port: 443],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -56,7 +56,7 @@ if config_env() == :prod do
   # If you are doing OTP releases, you need to instruct Phoenix
   # to start each relevant endpoint:
   #
-  #     config :currencyconverter, CurrencyconversorWeb.Endpoint, server: true
+  #     config :currencyconverter, CurrencyconverterWeb.Endpoint, server: true
   #
   # Then you can assemble a release by calling `mix release`.
   # See `mix help release` for more information.

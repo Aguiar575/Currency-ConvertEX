@@ -1,4 +1,4 @@
-defmodule Currencyconversor.Application do
+defmodule Currencyconverter.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -9,20 +9,20 @@ defmodule Currencyconversor.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      Currencyconversor.Repo,
+      Currencyconverter.Repo,
       # Start the Telemetry supervisor
-      CurrencyconversorWeb.Telemetry,
+      CurrencyconverterWeb.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: Currencyconversor.PubSub},
+      {Phoenix.PubSub, name: Currencyconverter.PubSub},
       # Start the Endpoint (http/https)
-      CurrencyconversorWeb.Endpoint
-      # Start a worker by calling: Currencyconversor.Worker.start_link(arg)
-      # {Currencyconversor.Worker, arg}
+      CurrencyconverterWeb.Endpoint
+      # Start a worker by calling: Currencyconverter.Worker.start_link(arg)
+      # {Currencyconverter.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Currencyconversor.Supervisor]
+    opts = [strategy: :one_for_one, name: Currencyconverter.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -30,7 +30,7 @@ defmodule Currencyconversor.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    CurrencyconversorWeb.Endpoint.config_change(changed, removed)
+    CurrencyconverterWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

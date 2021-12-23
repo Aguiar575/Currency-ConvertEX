@@ -1,12 +1,12 @@
-defmodule Currencyconversor.TransactionTest do
-  use Currencyconversor.DataCase
+defmodule Currencyconverter.TransactionTest do
+  use Currencyconverter.DataCase
 
-  alias Currencyconversor.Transaction
+  alias Currencyconverter.Transaction
 
   describe "transactions" do
-    alias Currencyconversor.Transaction.Transactions
+    alias Currencyconverter.Transaction.Transactions
 
-    import Currencyconversor.TransactionFixtures
+    import Currencyconverter.TransactionFixtures
 
     @invalid_attrs %{conversion_rate: nil, destination_currency: nil, origin_currency: nil, origin_currency_value: nil, user_id: nil}
 

@@ -1,4 +1,4 @@
-defmodule CurrencyconversorWeb.ChannelCase do
+defmodule CurrencyconverterWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -11,7 +11,7 @@ defmodule CurrencyconversorWeb.ChannelCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use CurrencyconversorWeb.ChannelCase, async: true`, although
+  by setting `use CurrencyconverterWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -21,15 +21,15 @@ defmodule CurrencyconversorWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import CurrencyconversorWeb.ChannelCase
+      import CurrencyconverterWeb.ChannelCase
 
       # The default endpoint for testing
-      @endpoint CurrencyconversorWeb.Endpoint
+      @endpoint CurrencyconverterWeb.Endpoint
     end
   end
 
   setup tags do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Currencyconversor.Repo, shared: not tags[:async])
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Currencyconverter.Repo, shared: not tags[:async])
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
     :ok
   end

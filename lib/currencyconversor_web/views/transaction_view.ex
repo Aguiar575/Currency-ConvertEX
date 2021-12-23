@@ -1,5 +1,5 @@
-defmodule CurrencyconversorWeb.ConversorView do
-  use CurrencyconversorWeb, :view
+defmodule CurrencyconverterWeb.ConversorView do
+  use CurrencyconverterWeb, :view
 
   def render("show.json", %{transaction: transaction}) do
     %{data: Enum.map(transaction, fn t -> %{ user_id: Enum.at(t, 0),

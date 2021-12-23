@@ -1,8 +1,8 @@
-defmodule CurrencyconversorWeb.ConversorController do
-  use CurrencyconversorWeb, :controller
-  alias Currencyconversor.Conversor
-  alias Currencyconversor.Transaction
-  alias Currencyconversor.Transaction.Transactions
+defmodule CurrencyconverterWeb.ConversorController do
+  use CurrencyconverterWeb, :controller
+  alias Currencyconverter.Conversor
+  alias Currencyconverter.Transaction
+  alias Currencyconverter.Transaction.Transactions
 
   @allow_currencies ["BRL","USD", "EUR", "JPY"]
 

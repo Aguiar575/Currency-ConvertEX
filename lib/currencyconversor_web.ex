@@ -1,12 +1,12 @@
-defmodule CurrencyconversorWeb do
+defmodule CurrencyconverterWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use CurrencyconversorWeb, :controller
-      use CurrencyconversorWeb, :view
+      use CurrencyconverterWeb, :controller
+      use CurrencyconverterWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,11 +19,11 @@ defmodule CurrencyconversorWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: CurrencyconversorWeb
+      use Phoenix.Controller, namespace: CurrencyconverterWeb
 
       import Plug.Conn
-      import CurrencyconversorWeb.Gettext
-      alias CurrencyconversorWeb.Router.Helpers, as: Routes
+      import CurrencyconverterWeb.Gettext
+      alias CurrencyconverterWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -31,7 +31,7 @@ defmodule CurrencyconversorWeb do
     quote do
       use Phoenix.View,
         root: "lib/currencyconverter_web/templates",
-        namespace: CurrencyconversorWeb
+        namespace: CurrencyconverterWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -54,7 +54,7 @@ defmodule CurrencyconversorWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import CurrencyconversorWeb.Gettext
+      import CurrencyconverterWeb.Gettext
     end
   end
 
@@ -63,9 +63,9 @@ defmodule CurrencyconversorWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import CurrencyconversorWeb.ErrorHelpers
-      import CurrencyconversorWeb.Gettext
-      alias CurrencyconversorWeb.Router.Helpers, as: Routes
+      import CurrencyconverterWeb.ErrorHelpers
+      import CurrencyconverterWeb.Gettext
+      alias CurrencyconverterWeb.Router.Helpers, as: Routes
     end
   end
 

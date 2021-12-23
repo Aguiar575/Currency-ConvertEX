@@ -1,6 +1,6 @@
-defmodule CurrencyconversorWeb.ConversorControllerTest do
-    use CurrencyconversorWeb.ConnCase
-    alias CurrencyconversorWeb.ConversorController
+defmodule CurrencyconverterWeb.ConversorControllerTest do
+    use CurrencyconverterWeb.ConnCase
+    alias CurrencyconverterWeb.ConversorController
 
     setup %{conn: conn} do
       {:ok, conn: put_req_header(conn, "accept", "application/json")}

@@ -1,7 +1,7 @@
 import Config
 
 # Configure your database
-config :currencyconverter, Currencyconversor.Repo,
+config :currencyconverter, Currencyconverter.Repo,
   database: Path.expand("../currencyconverter_dev.db", Path.dirname(__ENV__.file)),
   pool_size: 5,
   show_sensitive_data_on_connection_error: true
@@ -12,7 +12,7 @@ config :currencyconverter, Currencyconversor.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :currencyconverter, CurrencyconversorWeb.Endpoint,
+config :currencyconverter, CurrencyconverterWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],

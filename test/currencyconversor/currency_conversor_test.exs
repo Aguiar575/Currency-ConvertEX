@@ -1,6 +1,6 @@
-defmodule Currencyconversor.ConversorTest do
-  use Currencyconversor.DataCase
-  alias Currencyconversor.Conversor
+defmodule Currencyconverter.ConversorTest do
+  use Currencyconverter.DataCase
+  alias Currencyconverter.Conversor
 
   @body %{
           "base" => "EUR",

@@ -8,13 +8,13 @@
 import Config
 
 config :currencyconverter,
-  ecto_repos: [Currencyconversor.Repo]
+  ecto_repos: [Currencyconverter.Repo]
 
 # Configures the endpoint
-config :currencyconverter, CurrencyconversorWeb.Endpoint,
+config :currencyconverter, CurrencyconverterWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: CurrencyconversorWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: Currencyconversor.PubSub,
+  render_errors: [view: CurrencyconverterWeb.ErrorView, accepts: ~w(json), layout: false],
+  pubsub_server: Currencyconverter.PubSub,
   live_view: [signing_salt: "KOoRlzeN"]
 
 # Configures Elixir's Logger

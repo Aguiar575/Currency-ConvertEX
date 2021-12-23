@@ -1,4 +1,4 @@
-defmodule CurrencyconversorWeb.ErrorHelpers do
+defmodule CurrencyconverterWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -25,9 +25,9 @@ defmodule CurrencyconversorWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(CurrencyconversorWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(CurrencyconverterWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(CurrencyconversorWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(CurrencyconverterWeb.Gettext, "errors", msg, opts)
     end
   end
 end
