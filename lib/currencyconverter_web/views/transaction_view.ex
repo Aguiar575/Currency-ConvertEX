@@ -23,4 +23,8 @@ defmodule CurrencyconverterWeb.ConverterView do
       date_time: transaction.inserted_at
     }
   end
+
+  def render("error.json", %{error: error}) do
+    %{error: error}
+  end
 end

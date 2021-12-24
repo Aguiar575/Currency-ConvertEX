@@ -1,4 +1,5 @@
 defmodule  Currencyconverter.Converter do
+  require Logger
   @moduledoc """
     this module connects to the external currency conversion api (https://exchangeratesapi.io/documentation/).
   """
@@ -37,12 +38,19 @@ defmodule  Currencyconverter.Converter do
               currency_rate: get_currency_rate(from, to, Jason.decode!(body))
             }
           }
-      %HTTPoison.Response{status_code: _, body: body} ->
+      %HTTPoison.Response{status_code: 401, body: body} ->
         %{  status: :error,
             message: Jason.decode!(body)
           }
-      _ -> %{error: "Error while trying to get conection with API"}
-    end
+      %HTTPoison.Response{status_code: 404, body: _}  ->
+        %{error: "Error 404: API endpoint not Found"}
+      %HTTPoison.Response{status_code: _, body: body}  ->
+        %{error: "Error while trying to get conection with API"}
+        Logger.error("""
+          Error while trying to get conection with API
+          body: #{body}
+          """)
+      end
   end
 
   @doc """

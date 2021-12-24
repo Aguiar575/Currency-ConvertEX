@@ -1,5 +1,7 @@
 defmodule CurrencyconverterWeb.ConverterController do
   use CurrencyconverterWeb, :controller
+  require Logger
+
   alias Currencyconverter.Converter
   alias Currencyconverter.Transaction
   alias Currencyconverter.Transaction.Transactions
@@ -21,52 +23,52 @@ defmodule CurrencyconverterWeb.ConverterController do
       params["user_id"] in ["", nil] ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "'user_id' is required"})
+        |> render("error.json", error: "'user_id' is required")
 
       not is_number_valid?(params["user_id"]) ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "'user_id' must be a number"})
+        |> render("error.json", error: "'user_id' must be a number")
 
       params["from"] in ["", nil] ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "'from' is required"})
+        |> render("error.json", error: "'from' is required")
 
       not is_valid_currency?(params["from"]) ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "Invalid currency: 'from'"})
+        |> render("error.json", error: "Invalid currency: 'from'")
 
         params["to"] in ["", nil] ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "'to' is required"})
+        |> render("error.json", error: "'to' is required")
 
       not is_valid_currency?(params["to"]) ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "Invalid currency: 'to'"})
+        |> render("error.json", error: "Invalid currency: 'to'")
 
       params["amount"] in ["", nil] ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "'amount' is required"})
+        |> render("error.json", error: "'amount' is required")
 
       not is_number_valid?(params["amount"]) ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "'amount' must be a number"})
+        |> render("error.json", error: "'amount' must be a number")
 
       not amount_is_bigger_than_zero?(params["amount"]) ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "'amount' must be bigger than zero"})
+        |> render("error.json", error: "'amount' must be bigger than zero")
 
       String.upcase(params["to"]) != "EUR" and String.upcase(params["from"]) != "EUR" ->
         conn
         |> put_status(:bad_request)
-        |> json( %{error: "invalid currency conversion"})
+        |> render("error.json", error: "invalid currency conversion")
 
       true -> handle_conversion(conn, params)
 
@@ -117,10 +119,16 @@ defmodule CurrencyconverterWeb.ConverterController do
                           origin_currency_value: transaction.amount,
                           user_id: user_id
                         }
-    {:ok, %Transactions{} = transaction_db} = Transaction.create_transactions(transaction_map)
-
-    conn
-    |> put_status(:ok)
-    |> render("convert.json", transaction: transaction_db, converted_value: transaction.converted)
+    case Transaction.create_transactions(transaction_map) do
+      {:ok, %Transactions{} = transaction_db} ->
+        conn
+        |> put_status(:ok)
+        |> render("convert.json", transaction: transaction_db, converted_value: transaction.converted)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        Logger.error(changeset.errors)
+        conn
+        |> put_status(:bad_request)
+        |> render("error.json", error: changeset.errors)
+    end
   end
 end

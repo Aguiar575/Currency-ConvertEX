@@ -44,7 +44,8 @@ defmodule Currencyconverter.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 1.7"},
       {:poison, "~> 3.0"},
-      {:ex_doc, "~> 0.24", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
+      {:logger_file_backend, "~> 0.0.10"}
     ]
   end
 
