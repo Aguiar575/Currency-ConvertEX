@@ -12,4 +12,11 @@ BRL, USD, EUR and JPY to: EUR <br/>
 # Installation and Usage
 
 Steps to run:
+
     $ mix deps.get
+
+    $ mix ecto.create
+    
+    $ mix ecto.migrate
+    
+    $ mix phx.server
