@@ -7,3 +7,9 @@ As this API makes use of the free version, the following conversions are availab
 EUR to: BRL, USD, EUR and JPY <br/>
 or <br/>
 BRL, USD, EUR and JPY to: EUR <br/>
+<br/>
+<br/>
+# Installation and Usage
+
+Steps to run:
+    $ mix deps.get
