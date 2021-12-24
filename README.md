@@ -6,4 +6,4 @@ The API consumes the external service from https://exchangeratesapi.io/documenta
 As this API makes use of the free version, the following conversions are available: <br/>
 EUR to: BRL, USD, EUR and JPY <br/>
 or <br/>
-BRL, USD, EUR and JPY to EUR <br/>
+BRL, USD, EUR and JPY to: EUR <br/>
