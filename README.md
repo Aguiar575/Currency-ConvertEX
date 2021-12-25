@@ -26,8 +26,8 @@ inside this file must contain the key of the external api that the project consu
 ``` elixir
 import Config
 
-config :currencyconverter, api_key: "some_api_key"
-
+config :currencyconverter, CurrencyconverterWeb.Endpoint,
+  api_key: "some_api_key"
 ```
 Done! the API is ready to use, just run: `$ mix phx.server`.
 <br/>
