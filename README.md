@@ -21,6 +21,10 @@ Steps to run:
 So that the project can consume the external api it is important that the .secret.exs files are configured. <br/>
 inside the Config folder there is a file called secret_example.exs, this file must have replicated to: <br/>
 dev.secret.exs / test.secret.exs. <br/>
+<br/>
+![secrets](https://github.com/Aguiar575/Currency-ConvertEX/blob/main/assets/secrets-exs.png)
+<br/>
+<br/>
 inside this file must contain the key of the external api that the project consumes.
 
 ``` elixir
@@ -36,6 +40,9 @@ To check the integrity, just run the tests with:
    
     $ mix test
 
+![secrets](https://github.com/Aguiar575/Currency-ConvertEX/blob/main/assets/tests.png)
+<br/>
+<br/>
 The API has two endpoints, one responsible for converting currencies and the other responsible for returning the conversions of a given user.
 
 ### POST Endpoint: 
