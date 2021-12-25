@@ -17,47 +17,75 @@ Steps to run:
     $ mix ecto.create
     
     $ mix ecto.migrate
-    
-    $ mix phx.server
 
-Done! the API is ready to use <br/>
+So that the project can consume the external api it is important that the .secret.exs files are configured. <br/>
+inside the Config folder there is a file called secret_example.exs, this file must have replicated to: <br/>
+dev.secret.exs / prod.secret.ex / test.secret.exs. <br/>
+inside this file must contain the key of the external api that the project consumes.
+
+``` elixir
+import Config
+
+config :currencyconverter, api_key: "some_api_key"
+
+```
+Done! the API is ready to use, just run: `$ mix phx.server`.
+<br/>
+<br/>
 To check the integrity, just run the tests with: 
    
     $ mix test
 
 The API has two endpoints, one responsible for converting currencies and the other responsible for returning the conversions of a given user.
 
-POST Endpoint: 
+### POST Endpoint: 
 This one does the currency conversion, receives four parameters. <br/>
 - user_id: Id of the user doing the conversion. 
 - from: currency to be converted.
 - to: destination currency for conversion. 
 - amount: monetary amount to be converted;
-``` json
-   
+``` javascript   
    http://localhost:4000/api/convert
-    
                              ? user_id= some_id 
-			     
                              & from= some_origin_currency
-			     
                              & to= some_destination_currency
-			     
                              & amount= some_amount
 ```
 return of API:
 ``` json
 {
-	"conversion_rate": "0.155671",
-	"date_time": "2021-12-24T22:06:20",
-	"destination_currency": "EUR",
-	"destination_currency_value": "0.31",
-	"origin_currency": "BRL",
-	"origin_currency_value": "2.00",
-	"transaction_id": 14,
-	"user_id": "1"
+  "conversion_rate": "0.155671",
+  "date_time": "2021-12-24T22:06:20",
+  "destination_currency": "EUR",
+  "destination_currency_value": "0.31",
+  "origin_currency": "BRL",
+  "origin_currency_value": "2.00",
+  "transaction_id": 14,
+  "user_id": "1"
 }
 ```
+### GET Endpoint:
+this route takes the user id as a parameter and returns all conversions related to this user.
+
+``` javascript   
+   http://localhost:4000/api/convert/some_user_id
+```
+return of API:
+``` json
+{
+  "data": [
+    {
+      "conversion_rate": "0.155388",
+      "date": "2021-12-25T02:48:45",
+      "destination_currency": "EUR",
+      "origin_currency": "BRL",
+      "origin_currency_value": "2.00",
+      "user_id": "1"
+    }
+  ]
+}
+```
+
 ## Documentation
 To generate the documentation, just run:
    
@@ -66,8 +94,8 @@ To generate the documentation, just run:
 ## Technologies Used
 
 [Phoenix framework](https://phoenixframework.org), was used for being lightweight, brings the essential libraries for building applications. <br/>
-The project was planned as a simple development, up to 7 days of construction, the API was built based on the MVC architecture pattern. <br/>
-The project layers follows the phoenix directory pattern, to find out more just access the [structure documentation](https://hexdocs.pm/phoenix/directory_structure.html). <br/>
+The project was planned as a simple development, up to 7 days of construction. <br/>
+The API was built based on the MVC architecture pattern, and project layers follows the phoenix directory pattern, to find out more just access the [structure documentation](https://hexdocs.pm/phoenix/directory_structure.html). <br/>
 <br/>
 The main libraries used in the project are: <br/>
 - [logger_file_backend](https://hexdocs.pm/logger_file_backend/readme.html): used to save error logs to a separate file.
