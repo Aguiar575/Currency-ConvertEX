@@ -3,7 +3,7 @@
 This project is an API for currency conversion. <br/>
 The API consumes the external service from https://exchangeratesapi.io/documentation/. <br/>
 <br/>
-As this API makes use of the free version, the following conversions are available: <br/>
+As this API makes use of the free version of external service, the following conversions are available: <br/>
 EUR to: BRL, USD, EUR and JPY <br/>
 or <br/>
 BRL, USD, EUR and JPY to: EUR <br/>
@@ -26,8 +26,8 @@ inside this file must contain the key of the external api that the project consu
 ``` elixir
 import Config
 
-config :currencyconverter, api_key: "some_api_key"
-
+config :currencyconverter, CurrencyconverterWeb.Endpoint,
+  api_key: "some_api_key"
 ```
 Done! the API is ready to use, just run: `$ mix phx.server`.
 <br/>
