@@ -19,9 +19,8 @@ Steps to run:
     $ mix ecto.migrate
 
 So that the project can consume the external api it is important that the .secret.exs files are configured. <br/>
-uncomment the `import_config`in files dev.exs and test.exs. <br/>
 inside the Config folder there is a file called secret_example.exs, this file must have replicated to: <br/>
-dev.secret.exs / prod.secret.ex / test.secret.exs. <br/>
+dev.secret.exs / test.secret.exs. <br/>
 inside this file must contain the key of the external api that the project consumes.
 
 ``` elixir
