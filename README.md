@@ -20,3 +20,8 @@ Steps to run:
     $ mix ecto.migrate
     
     $ mix phx.server
+
+Done! the API is ready to use <br/>
+To check the integrity, just run the tests with: 
+   
+    $ mix test
