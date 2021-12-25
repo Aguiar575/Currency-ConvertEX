@@ -10,11 +10,25 @@ defmodule CurrencyconverterWeb.ConverterController do
 
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show(conn, %{"id" => id}) do
-    transaction = Transaction.get_by_user_id!(id)
+    cond do
+      id in ["", nil] ->
+        conn
+        |> put_status(:bad_request)
+        |> render("error.json", error: "the user id is required")
 
-    conn
-    |> put_status(:ok)
-    |> render("show.json", transaction: transaction)
+      not is_number_valid?(id) ->
+        conn
+        |> put_status(:bad_request)
+        |> render("error.json", error: "the user id must be a number")
+
+      true ->
+        transaction = Transaction.get_by_user_id!(id)
+        conn
+        |> put_status(:ok)
+        |> render("show.json", transaction: transaction)
+    end
+
+
   end
 
   @spec convert(Plug.Conn.t(), nil | maybe_improper_list | map) :: Plug.Conn.t()
