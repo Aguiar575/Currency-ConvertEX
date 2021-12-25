@@ -1,7 +1,7 @@
 defmodule Currencyconverter.ApiCurrencyConverterTest do
   use Currencyconverter.DataCase
 
-  @api_key Application.fetch_env!(:currencyconverter, :api_key)
+  @api_key Application.get_env(:currencyconverter, CurrencyconverterWeb.Endpoint)[:api_key]
   @uri "http://api.exchangeratesapi.io/v1/latest?access_key=?&base=EUR&symbols=BRL,USD,JPY"
 
   describe "API key validation" do

@@ -20,7 +20,8 @@ config :currencyconverter, CurrencyconverterWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "gDmypJQc7U1+95aiejlBmtSkVb4OTYp9WSN/yihtMYH1DrKzVkQ5gwKe6LECcSEA",
-  watchers: []
+  watchers: [],
+  api_key: System.get_env("API_KEY")
 
 # ## SSL Support
 #

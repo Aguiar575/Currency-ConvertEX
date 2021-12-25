@@ -15,7 +15,8 @@ config :currencyconverter, Currencyconverter.Repo,
 config :currencyconverter, CurrencyconverterWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "IAR700tCq0Z8k3n11fOr82VzA9+VyjsFblIlRZ8KYEnvTTP0jpUuIjX7XYnD2yGr",
-  server: false
+  server: false,
+  api_key: System.get_env("API_KEY")
 
 # Print only warnings and errors during test
 config :logger, level: :warn

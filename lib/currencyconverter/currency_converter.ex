@@ -79,7 +79,7 @@ defmodule  Currencyconverter.Converter do
     end
   end
 
-  defp retun_key(), do: Application.fetch_env!(:currencyconverter, :api_key)
+  defp retun_key(), do: Application.get_env(:currencyconverter, CurrencyconverterWeb.Endpoint)[:api_key]
 
   defp get_conversion() do
     HTTPoison.get!("http://api.exchangeratesapi.io/v1/latest?access_key=#{retun_key()}&base=EUR&symbols=BRL,USD,JPY")
