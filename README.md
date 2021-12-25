@@ -25,6 +25,34 @@ To check the integrity, just run the tests with:
    
     $ mix test
 
+The API has two endpoints, one responsible for converting currencies and the other responsible for returning the conversions of a given user.
+
+POST Endpoint: 
+This one does the currency conversion, receives four parameters. <br/>
+- user_id: Id of the user doing the conversion. 
+- from: currency to be converted.
+- to: destination currency for conversion. 
+- amount: monetary amount to be converted;
+`
+    http://localhost:4000/api/convert
+                             ? user_id= some_id
+                             & from= some_origin_currency
+                             & to= some_destination_currency
+                             & amount= some_amount
+`
+return of API:
+``` json
+{
+	"conversion_rate": "0.155671",
+	"date_time": "2021-12-24T22:06:20",
+	"destination_currency": "EUR",
+	"destination_currency_value": "0.31",
+	"origin_currency": "BRL",
+	"origin_currency_value": "2.00",
+	"transaction_id": 14,
+	"user_id": "1"
+}
+
 ## Documentation
 To generate the documentation, just run:
    
