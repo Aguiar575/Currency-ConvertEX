@@ -35,9 +35,13 @@ This one does the currency conversion, receives four parameters. <br/>
 - amount: monetary amount to be converted;
 `
     http://localhost:4000/api/convert
-                             ? user_id= some_id
+    
+                             ? user_id= some_id 
+			     
                              & from= some_origin_currency
+			     
                              & to= some_destination_currency
+			     
                              & amount= some_amount
 `
 return of API:
@@ -52,7 +56,7 @@ return of API:
 	"transaction_id": 14,
 	"user_id": "1"
 }
-
+```
 ## Documentation
 To generate the documentation, just run:
    
