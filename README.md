@@ -29,3 +29,13 @@ To check the integrity, just run the tests with:
 To generate the documentation, just run:
    
     $ mix docs
+
+## Technologies Used
+
+The project was planned as a simple development, up to 7 days of construction, the API was built based on the MVC architecture pattern. <br/>
+The project layers follows the phoenix directory pattern, to find out more just access the [structure documentation](https://hexdocs.pm/phoenix/directory_structure.html). <br/>
+[Phoenix framework](https://phoenixframework.org), used for being lightweight, brings the essential libraries for building applications. <br/>
+The main libraries used in the project are: <br/>
+- logger_file_backend: used to save error logs to a separate file.
+- ex_doc: used to generate project documentation.
+- httpoison: used to make requests with the external API.
