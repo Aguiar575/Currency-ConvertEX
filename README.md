@@ -33,7 +33,7 @@ This one does the currency conversion, receives four parameters. <br/>
 - from: currency to be converted.
 - to: destination currency for conversion. 
 - amount: monetary amount to be converted;
-`
+``` json
    
    http://localhost:4000/api/convert
     
@@ -44,7 +44,7 @@ This one does the currency conversion, receives four parameters. <br/>
                              & to= some_destination_currency
 			     
                              & amount= some_amount
-`
+```
 return of API:
 ``` json
 {
