@@ -1,5 +1,6 @@
-defmodule  Currencyconverter.Converter do
+defmodule  Currencyconverter.Transaction.DoTransactions do
   require Logger
+  alias Currencyconverter.Transaction.GetCurrencies
   @moduledoc """
     this module connects to the external currency conversion api (https://exchangeratesapi.io/documentation/).
   """
@@ -26,7 +27,7 @@ defmodule  Currencyconverter.Converter do
     amount_f = amount |> String.replace(",", ".") |> Float.parse() |> elem(0)
     from = String.upcase(from)
     to = String.upcase(to)
-    case get_conversion() do
+    case GetCurrencies.get_conversion() do
       %HTTPoison.Response{status_code: 200, body: body} ->
         converted = get_converted_amount(from, to , amount_f, Jason.decode!(body))
         %{
@@ -77,12 +78,6 @@ defmodule  Currencyconverter.Converter do
       true ->
         body["rates"][String.upcase(to)] |> :erlang.float_to_binary(decimals: 6)
     end
-  end
-
-  defp retun_key(), do: Application.get_env(:currencyconverter, CurrencyconverterWeb.Endpoint)[:api_key]
-
-  defp get_conversion() do
-    HTTPoison.get!("http://api.exchangeratesapi.io/v1/latest?access_key=#{retun_key()}&base=EUR&symbols=BRL,USD,JPY")
   end
 
   @doc """

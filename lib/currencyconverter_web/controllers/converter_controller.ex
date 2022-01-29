@@ -2,7 +2,7 @@ defmodule CurrencyconverterWeb.ConverterController do
   use CurrencyconverterWeb, :controller
   require Logger
 
-  alias Currencyconverter.Converter
+  alias Currencyconverter.Transaction.DoTransactions
   alias Currencyconverter.Transaction
   alias Currencyconverter.Transaction.Transactions
 
@@ -111,7 +111,7 @@ defmodule CurrencyconverterWeb.ConverterController do
   end
 
   defp handle_conversion(conn, params) do
-    conversion = Converter.convert_to(params["from"], params["to"], params["amount"])
+    conversion = DoTransactions.convert_to(params["from"], params["to"], params["amount"])
     case conversion do
       %{status: :success, transaction: _} ->
         conn
