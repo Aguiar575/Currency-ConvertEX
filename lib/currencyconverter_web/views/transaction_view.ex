@@ -2,6 +2,7 @@ defmodule CurrencyconverterWeb.ConverterView do
   use CurrencyconverterWeb, :view
 
   def render("show.json", %{transaction: transaction}) do
+    IO.inspect(transaction)
     %{data: Enum.map(transaction, fn t -> %{ user_id: Enum.at(t, 0),
                                              origin_currency: Enum.at(t, 1),
                                              origin_currency_value: Enum.at(t, 2),

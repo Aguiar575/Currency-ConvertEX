@@ -9,7 +9,7 @@ defmodule Currencyconverter.Transaction.Transactions do
     field :destination_currency, :string
     field :origin_currency, :string
     field :origin_currency_value, :string
-    field :user_id, :string
+    field :user_id, :integer
 
     timestamps()
   end

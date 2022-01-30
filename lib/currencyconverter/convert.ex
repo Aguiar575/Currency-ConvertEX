@@ -1,6 +1,6 @@
-defmodule  Currencyconverter.Transaction.DoTransactions do
+defmodule  Currencyconverter.Convert do
   require Logger
-  alias Currencyconverter.Transaction.GetCurrencies
+  alias Currencyconverter.GetCurrencies
   @moduledoc """
     this module connects to the external currency conversion api (https://exchangeratesapi.io/documentation/).
   """
@@ -24,23 +24,24 @@ defmodule  Currencyconverter.Transaction.DoTransactions do
       }
   """
   def convert_to(from, to, amount) do
-    amount_f = amount |> String.replace(",", ".") |> Float.parse() |> elem(0)
     from = String.upcase(from)
     to = String.upcase(to)
     case GetCurrencies.get_conversion() do
       %HTTPoison.Response{status_code: 200, body: body} ->
-        converted = get_converted_amount(from, to , amount_f, Jason.decode!(body))
+        converted = get_converted_amount(from, to , amount, Jason.decode!(body))
         %{
           status: :success,
-          transaction: %{  from: from,
+          transaction: %{
+              from: from,
               to: to,
-              amount: :erlang.float_to_binary(amount_f, decimals: 2),
+              amount: :erlang.float_to_binary(amount, decimals: 2),
               converted: :erlang.float_to_binary(converted, decimals: 2),
               currency_rate: get_currency_rate(from, to, Jason.decode!(body))
             }
           }
       %HTTPoison.Response{status_code: 401, body: body} ->
-        %{  status: :error,
+        %{
+            status: :error,
             message: Jason.decode!(body)
           }
       %HTTPoison.Response{status_code: 404, body: _}  ->
@@ -96,12 +97,12 @@ defmodule  Currencyconverter.Transaction.DoTransactions do
       iex> get_converted_amount("BRL", "EUR", 5.0, external_api_return)
       0.78
   """
-  def get_converted_amount(from, to, amount_f, conversion_body) do
+  def get_converted_amount(from, to, amount, conversion_body) do
     case from do
-      "EUR" -> convert_to_euro(to, amount_f, conversion_body)
-      "BRL" -> convert_value_from_euro(amount_f, conversion_body["rates"]["BRL"])
-      "USD" -> convert_value_from_euro(amount_f, conversion_body["rates"]["USD"])
-      "JPY" -> convert_value_from_euro(amount_f, conversion_body["rates"]["JPY"])
+      "EUR" -> convert_to_euro(to, amount, conversion_body)
+      "BRL" -> convert_value_from_euro(amount, conversion_body["rates"]["BRL"])
+      "USD" -> convert_value_from_euro(amount, conversion_body["rates"]["USD"])
+      "JPY" -> convert_value_from_euro(amount, conversion_body["rates"]["JPY"])
       _ -> %{error: "invalid currency"}
     end
   end
@@ -122,22 +123,22 @@ defmodule  Currencyconverter.Transaction.DoTransactions do
       iex> convert_to_euro("BRL", 5.0, external_api_return)
       32.11
   """
-  def convert_to_euro(to, amount_f, conversion_body) do
+  def convert_to_euro(to, amount, conversion_body) do
     case to do
-      "BRL" -> convert_value_to_euro(amount_f, conversion_body["rates"]["BRL"])
-      "USD" -> convert_value_to_euro(amount_f, conversion_body["rates"]["USD"])
-      "JPY" -> convert_value_to_euro(amount_f, conversion_body["rates"]["JPY"])
-      "EUR" -> amount_f
+      "BRL" -> convert_value_to_euro(amount, conversion_body["rates"]["BRL"])
+      "USD" -> convert_value_to_euro(amount, conversion_body["rates"]["USD"])
+      "JPY" -> convert_value_to_euro(amount, conversion_body["rates"]["JPY"])
+      "EUR" -> amount
       _ -> %{error: "invalid currency"}
     end
   end
 
-  defp convert_value_to_euro(amount_f, rate) do
-    (amount_f * rate) |> Float.round(2)
+  defp convert_value_to_euro(amount, rate) do
+    (amount * rate) |> Float.round(2)
   end
 
-  defp convert_value_from_euro(amount_f, rate) do
+  defp convert_value_from_euro(amount, rate) do
     unit =  if rate == 1, do: 1, else: 1 / rate
-    (amount_f * unit) |> Float.round(2)
+    (amount * unit) |> Float.round(2)
   end
 end

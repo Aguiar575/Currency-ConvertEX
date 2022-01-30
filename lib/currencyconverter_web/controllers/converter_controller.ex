@@ -2,9 +2,13 @@ defmodule CurrencyconverterWeb.ConverterController do
   use CurrencyconverterWeb, :controller
   require Logger
 
-  alias Currencyconverter.Transaction.DoTransactions
+  alias Currencyconverter.Convert
+
   alias Currencyconverter.Transaction
   alias Currencyconverter.Transaction.Transactions
+
+  alias Currencyconverter.Conversion.Conversions
+  alias Currencyconverter.Conversion.HandleErrors
 
   @allow_currencies ["BRL","USD", "EUR", "JPY"]
 
@@ -27,66 +31,22 @@ defmodule CurrencyconverterWeb.ConverterController do
         |> put_status(:ok)
         |> render("show.json", transaction: transaction)
     end
-
-
   end
 
-  @spec convert(Plug.Conn.t(), nil | maybe_improper_list | map) :: Plug.Conn.t()
-  def convert(conn, params) do
-    cond do
-      params["user_id"] in ["", nil] ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "'user_id' is required")
+  def convert(conn, body) do
+    params = %{user_id: body["user_id"], from: body["from"], to: body["to"], amount: body["amount"]}
+    changeset = Conversions.changeset(params)
+    do_convert(conn, changeset, changeset.valid?)
+  end
 
-      not is_number_valid?(params["user_id"]) ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "'user_id' must be a number")
+  defp do_convert(conn, changeset, true) do
+    handle_conversion(conn, changeset.changes)
+  end
 
-      params["from"] in ["", nil] ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "'from' is required")
-
-      not is_valid_currency?(params["from"]) ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "Invalid currency: 'from'")
-
-        params["to"] in ["", nil] ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "'to' is required")
-
-      not is_valid_currency?(params["to"]) ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "Invalid currency: 'to'")
-
-      params["amount"] in ["", nil] ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "'amount' is required")
-
-      not is_number_valid?(params["amount"]) ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "'amount' must be a number")
-
-      not amount_is_bigger_than_zero?(params["amount"]) ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "'amount' must be bigger than zero")
-
-      String.upcase(params["to"]) != "EUR" and String.upcase(params["from"]) != "EUR" ->
-        conn
-        |> put_status(:bad_request)
-        |> render("error.json", error: "invalid currency conversion")
-
-      true -> handle_conversion(conn, params)
-
-    end
+  defp do_convert(conn, changeset, false) do
+    conn
+    |> put_status(:bad_request)
+    |> render("error.json", error: HandleErrors.handle_errors(changeset))
   end
 
   @spec is_number_valid?(binary) :: boolean
@@ -110,12 +70,12 @@ defmodule CurrencyconverterWeb.ConverterController do
     Integer.parse(amount) |> elem(0) > 0
   end
 
-  defp handle_conversion(conn, params) do
-    conversion = DoTransactions.convert_to(params["from"], params["to"], params["amount"])
+  def handle_conversion(conn, params) do
+    conversion = Convert.convert_to(params.from, params.to, params.amount)
     case conversion do
       %{status: :success, transaction: _} ->
         conn
-        |> return_conversion(conversion.transaction, params["user_id"])
+        |> return_conversion(conversion.transaction, params.user_id)
       %{status: :error, message: _} ->
         conn
         |> put_status(:bad_request)
