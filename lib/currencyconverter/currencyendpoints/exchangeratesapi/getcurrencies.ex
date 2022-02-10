@@ -1,4 +1,4 @@
-defmodule Currencyconverter.GetCurrencies do
+defmodule Currencyconverter.CurrencyEndpoints.Exchangeratesapi.GetCurrencies do
   def get_conversion() do
     HTTPoison.get!("http://api.exchangeratesapi.io/v1/latest?access_key=#{retun_key()}&base=EUR&symbols=BRL,USD,JPY")
   end

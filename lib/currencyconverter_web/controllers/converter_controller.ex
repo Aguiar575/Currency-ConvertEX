@@ -8,7 +8,7 @@ defmodule CurrencyconverterWeb.ConverterController do
   alias Currencyconverter.Transaction.Transactions
 
   alias Currencyconverter.Conversion.Conversions
-  alias Currencyconverter.Conversion.HandleErrors
+  alias Currencyconverter.Conversion.Errors
 
   @allow_currencies ["BRL","USD", "EUR", "JPY"]
 
@@ -46,7 +46,7 @@ defmodule CurrencyconverterWeb.ConverterController do
   defp do_convert(conn, changeset, false) do
     conn
     |> put_status(:bad_request)
-    |> render("error.json", error: HandleErrors.handle_errors(changeset))
+    |> render("error.json", error: Errors.errors(changeset))
   end
 
   @spec is_number_valid?(binary) :: boolean

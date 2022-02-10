@@ -1,6 +1,6 @@
 defmodule  Currencyconverter.Convert do
   require Logger
-  alias Currencyconverter.GetCurrencies
+  alias Currencyconverter.CurrencyEndpoints.Exchangeratesapi.GetCurrencies
   @moduledoc """
     this module connects to the external currency conversion api (https://exchangeratesapi.io/documentation/).
   """

@@ -13,6 +13,8 @@ defmodule Currencyconverter.Conversion.Conversions do
     timestamps()
   end
 
+  @spec changeset(:invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}) ::
+          Ecto.Changeset.t()
   @doc false
   def changeset(params) do
     %__MODULE__{}

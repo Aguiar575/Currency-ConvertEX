@@ -1,6 +1,6 @@
-defmodule Currencyconverter.Conversion.HandleErrors do
-  @spec handle_errors(Ecto.Changeset.t()) :: any
-  def handle_errors(changeset) do
+defmodule Currencyconverter.Conversion.Errors do
+  @spec errors(Ecto.Changeset.t()) :: any
+  def errors(changeset) do
     Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
       Enum.reduce(opts, msg, fn {key, value}, acc ->
         String.replace(acc, "%{#{key}}", to_string(value))
