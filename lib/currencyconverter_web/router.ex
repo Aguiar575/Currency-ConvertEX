@@ -2,13 +2,13 @@ defmodule CurrencyconverterWeb.Router do
   use CurrencyconverterWeb, :router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/api", CurrencyconverterWeb do
-    pipe_through :api
+    pipe_through(:api)
 
-    post "/convert", ConverterController, :convert
-    get "/convert/:id", ConverterController, :show
+    post("/convert", ConverterController, :convert)
+    get("/show-user/:user_id", ConverterController, :show_user)
   end
 end

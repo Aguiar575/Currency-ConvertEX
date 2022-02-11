@@ -3,15 +3,14 @@ defmodule Currencyconverter.ConverterTest do
   alias Currencyconverter.Converter
 
   @body %{
-          "base" => "EUR",
-          "date" => "2021-12-22",
-          "rates" => %{"BRL" => 6.422379, "JPY" => 129.338451, "USD" => 1.132496},
-          "success" => true,
-          "timestamp" => 1640199543
-        }
+    "base" => "EUR",
+    "date" => "2021-12-22",
+    "rates" => %{"BRL" => 6.422379, "JPY" => 129.338451, "USD" => 1.132496},
+    "success" => true,
+    "timestamp" => 1_640_199_543
+  }
 
   describe "get_currency_rate" do
-
     test "should return 0.155706 - BRL to EUR" do
       assert Converter.get_currency_rate("BRL", "EUR", @body) == "0.155706"
     end
@@ -71,11 +70,15 @@ defmodule Currencyconverter.ConverterTest do
     end
 
     test "should return invalid currency - ZTR to USD" do
-      assert Converter.get_converted_amount("ZTR", "USD", 4.0, @body) == %{error: "invalid currency"}
+      assert Converter.get_converted_amount("ZTR", "USD", 4.0, @body) == %{
+               error: "invalid currency"
+             }
     end
 
     test "should return invalid currency - EUR to ZTR" do
-      assert Converter.get_converted_amount("EUR", "ZTR", 4.0, @body) == %{error: "invalid currency"}
+      assert Converter.get_converted_amount("EUR", "ZTR", 4.0, @body) == %{
+               error: "invalid currency"
+             }
     end
   end
 end

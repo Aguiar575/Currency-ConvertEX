@@ -6,14 +6,16 @@ defmodule Currencyconverter.ApiCurrencyConverterTest do
 
   describe "API key validation" do
     test "should return 401 code" do
-      %HTTPoison.Response{status_code: status, body: _} =
-      HTTPoison.get!(@uri)
+      %HTTPoison.Response{status_code: status, body: _} = HTTPoison.get!(@uri)
       assert status == 401
     end
 
     test "should return 200 code" do
       %HTTPoison.Response{status_code: status, body: _} =
-      HTTPoison.get!("http://api.exchangeratesapi.io/v1/latest?access_key=#{@api_key}&base=EUR&symbols=BRL,USD,JPY")
+        HTTPoison.get!(
+          "http://api.exchangeratesapi.io/v1/latest?access_key=#{@api_key}&base=EUR&symbols=BRL,USD,JPY"
+        )
+
       assert status == 200
     end
   end

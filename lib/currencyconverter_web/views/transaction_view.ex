@@ -3,13 +3,20 @@ defmodule CurrencyconverterWeb.ConverterView do
 
   def render("show.json", %{transaction: transaction}) do
     IO.inspect(transaction)
-    %{data: Enum.map(transaction, fn t -> %{ user_id: Enum.at(t, 0),
-                                             origin_currency: Enum.at(t, 1),
-                                             origin_currency_value: Enum.at(t, 2),
-                                             destination_currency: Enum.at(t, 3),
-                                             conversion_rate: Enum.at(t, 4),
-                                             date: Enum.at(t, 5)
-    } end) }
+
+    %{
+      data:
+        Enum.map(transaction, fn t ->
+          %{
+            user_id: Enum.at(t, 0),
+            origin_currency: Enum.at(t, 1),
+            origin_currency_value: Enum.at(t, 2),
+            destination_currency: Enum.at(t, 3),
+            conversion_rate: Enum.at(t, 4),
+            date: Enum.at(t, 5)
+          }
+        end)
+    }
   end
 
   def render("convert.json", %{transaction: transaction, converted_value: converted_value}) do

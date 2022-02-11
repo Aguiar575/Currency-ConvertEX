@@ -21,7 +21,8 @@ config :currencyconverter, CurrencyconverterWeb.Endpoint,
 # ensure https://github.com/onkel-dirtus/logger_file_backend
 # is installed in deps of the project in mix.exs
 # reuses the original phoenix logging format.
-config :logger, backends: [{LoggerFileBackend, :request_log}],
+config :logger,
+  backends: [{LoggerFileBackend, :request_log}],
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
@@ -31,7 +32,7 @@ config :logger, backends: [{LoggerFileBackend, :request_log}],
 # Note: Remember to specify the format along with the metadata required.
 # Configurable per LoggerFileBackend.
 config :logger, :request_log,
-  path: "#{File.cwd!()}/logs/request.#{Mix.env}.log",
+  path: "#{File.cwd!()}/logs/request.#{Mix.env()}.log",
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id],
   level: :error

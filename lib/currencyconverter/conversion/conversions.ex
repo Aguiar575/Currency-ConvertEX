@@ -5,17 +5,15 @@ defmodule Currencyconverter.Conversion.Conversions do
   @required_params [:user_id, :from, :to, :amount]
 
   embedded_schema do
-    field :user_id, :integer
-    field :from, :string
-    field :to, :string
-    field :amount, :float
-
-    timestamps()
+    field(:user_id, :integer)
+    field(:from, :string)
+    field(:to, :string)
+    field(:amount, :float)
   end
 
   @spec changeset(:invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}) ::
           Ecto.Changeset.t()
-  @doc false
+
   def changeset(params) do
     %__MODULE__{}
     |> cast(params, @required_params)

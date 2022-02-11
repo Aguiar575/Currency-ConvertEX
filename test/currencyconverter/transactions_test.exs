@@ -8,7 +8,13 @@ defmodule Currencyconverter.TransactionTest do
 
     import Currencyconverter.TransactionFixtures
 
-    @invalid_attrs %{conversion_rate: nil, destination_currency: nil, origin_currency: nil, origin_currency_value: nil, user_id: nil}
+    @invalid_attrs %{
+      conversion_rate: nil,
+      destination_currency: nil,
+      origin_currency: nil,
+      origin_currency_value: nil,
+      user_id: nil
+    }
 
     test "list_transactions/0 returns all transactions" do
       transactions = transactions_fixture()
@@ -21,7 +27,13 @@ defmodule Currencyconverter.TransactionTest do
     end
 
     test "create_transactions/1 with valid data creates a transactions" do
-      valid_attrs = %{conversion_rate: "42", destination_currency: "some destination_currency", origin_currency: "some origin_currency", origin_currency_value: "42", user_id: "42"}
+      valid_attrs = %{
+        conversion_rate: "42",
+        destination_currency: "some destination_currency",
+        origin_currency: "some origin_currency",
+        origin_currency_value: "42",
+        user_id: "42"
+      }
 
       assert {:ok, %Transactions{} = transactions} = Transaction.create_transactions(valid_attrs)
       assert transactions.conversion_rate == "42"
@@ -37,9 +49,18 @@ defmodule Currencyconverter.TransactionTest do
 
     test "update_transactions/2 with valid data updates the transactions" do
       transactions = transactions_fixture()
-      update_attrs = %{conversion_rate: "43", destination_currency: "some updated destination_currency", origin_currency: "some updated origin_currency", origin_currency_value: "43", user_id: "43"}
 
-      assert {:ok, %Transactions{} = transactions} = Transaction.update_transactions(transactions, update_attrs)
+      update_attrs = %{
+        conversion_rate: "43",
+        destination_currency: "some updated destination_currency",
+        origin_currency: "some updated origin_currency",
+        origin_currency_value: "43",
+        user_id: "43"
+      }
+
+      assert {:ok, %Transactions{} = transactions} =
+               Transaction.update_transactions(transactions, update_attrs)
+
       assert transactions.conversion_rate == "43"
       assert transactions.destination_currency == "some updated destination_currency"
       assert transactions.origin_currency == "some updated origin_currency"
@@ -49,7 +70,10 @@ defmodule Currencyconverter.TransactionTest do
 
     test "update_transactions/2 with invalid data returns error changeset" do
       transactions = transactions_fixture()
-      assert {:error, %Ecto.Changeset{}} = Transaction.update_transactions(transactions, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Transaction.update_transactions(transactions, @invalid_attrs)
+
       assert transactions == Transaction.get_transactions!(transactions.id)
     end
 

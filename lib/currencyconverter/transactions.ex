@@ -37,7 +37,7 @@ defmodule Currencyconverter.Transaction do
   """
   def get_transactions!(id), do: Repo.get!(Transactions, id)
 
-    @doc """
+  @doc """
   Gets all transactions for an user id.
 
   Returns a empty list if the Transactions does not exist.
@@ -51,14 +51,21 @@ defmodule Currencyconverter.Transaction do
       []
 
   """
-  def get_by_user_id!(user_id), do: Repo.all(from t in Transactions,
-                                             where: t.user_id == ^user_id,
-                                             select: [t.user_id,
-                                                      t.origin_currency,
-                                                      t.origin_currency_value,
-                                                      t.destination_currency,
-                                                      t.conversion_rate,
-                                                      t.inserted_at])
+  def get_by_user_id!(user_id),
+    do:
+      Repo.all(
+        from(t in Transactions,
+          where: t.user_id == ^user_id,
+          select: [
+            t.user_id,
+            t.origin_currency,
+            t.origin_currency_value,
+            t.destination_currency,
+            t.conversion_rate,
+            t.inserted_at
+          ]
+        )
+      )
 
   @doc """
   Creates a transactions.

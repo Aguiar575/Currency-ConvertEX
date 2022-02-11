@@ -1,6 +1,7 @@
-defmodule  Currencyconverter.Convert do
+defmodule Currencyconverter.Convert do
   require Logger
   alias Currencyconverter.CurrencyEndpoints.Exchangeratesapi.GetCurrencies
+
   @moduledoc """
     this module connects to the external currency conversion api (https://exchangeratesapi.io/documentation/).
   """
@@ -26,33 +27,39 @@ defmodule  Currencyconverter.Convert do
   def convert_to(from, to, amount) do
     from = String.upcase(from)
     to = String.upcase(to)
+
     case GetCurrencies.get_conversion() do
       %HTTPoison.Response{status_code: 200, body: body} ->
-        converted = get_converted_amount(from, to , amount, Jason.decode!(body))
+        converted = get_converted_amount(from, to, amount, Jason.decode!(body))
+
         %{
           status: :success,
           transaction: %{
-              from: from,
-              to: to,
-              amount: :erlang.float_to_binary(amount, decimals: 2),
-              converted: :erlang.float_to_binary(converted, decimals: 2),
-              currency_rate: get_currency_rate(from, to, Jason.decode!(body))
-            }
+            from: from,
+            to: to,
+            amount: :erlang.float_to_binary(amount, decimals: 2),
+            converted: :erlang.float_to_binary(converted, decimals: 2),
+            currency_rate: get_currency_rate(from, to, Jason.decode!(body))
           }
+        }
+
       %HTTPoison.Response{status_code: 401, body: body} ->
         %{
-            status: :error,
-            message: Jason.decode!(body)
-          }
-      %HTTPoison.Response{status_code: 404, body: _}  ->
+          status: :error,
+          message: Jason.decode!(body)
+        }
+
+      %HTTPoison.Response{status_code: 404, body: _} ->
         %{error: "Error 404: API endpoint not Found"}
-      %HTTPoison.Response{status_code: _, body: body}  ->
+
+      %HTTPoison.Response{status_code: _, body: body} ->
         %{error: "Error while trying to get conection with API"}
+
         Logger.error("""
-          Error while trying to get conection with API
-          body: #{body}
-          """)
-      end
+        Error while trying to get conection with API
+        body: #{body}
+        """)
+    end
   end
 
   @doc """
@@ -73,9 +80,11 @@ defmodule  Currencyconverter.Convert do
   def get_currency_rate(from, to, body) do
     cond do
       String.upcase(to) == "EUR" and String.upcase(from) != "EUR" ->
-        1 / body["rates"][String.upcase(from)] |> :erlang.float_to_binary(decimals: 6)
+        (1 / body["rates"][String.upcase(from)]) |> :erlang.float_to_binary(decimals: 6)
+
       String.upcase(to) == "EUR" and String.upcase(from) == "EUR" ->
         1.00 |> :erlang.float_to_binary(decimals: 2)
+
       true ->
         body["rates"][String.upcase(to)] |> :erlang.float_to_binary(decimals: 6)
     end
@@ -138,7 +147,7 @@ defmodule  Currencyconverter.Convert do
   end
 
   defp convert_value_from_euro(amount, rate) do
-    unit =  if rate == 1, do: 1, else: 1 / rate
+    unit = if rate == 1, do: 1, else: 1 / rate
     (amount * unit) |> Float.round(2)
   end
 end
