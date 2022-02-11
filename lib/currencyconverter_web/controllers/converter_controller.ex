@@ -10,34 +10,7 @@ defmodule CurrencyconverterWeb.ConverterController do
   alias Currencyconverter.Conversion.Conversions
   alias Currencyconverter.Conversion.Errors
 
-  alias CurrencyConverter.User.Users
-
   @allow_currencies ["BRL", "USD", "EUR", "JPY"]
-
-  @spec show_user(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def show_user(conn, body) do
-    params = %{
-      user_id: body["user_id"]
-    }
-
-    changeset = Users.changeset(params)
-    find_user(conn, changeset, changeset.valid?)
-  end
-
-  defp find_user(conn, changeset, true) do
-    transaction = Transaction.get_by_user_id!(changeset.changes.user_id)
-    IO.inspect(transaction)
-
-    conn
-    |> put_status(:ok)
-    |> render("show.json", transaction: transaction)
-  end
-
-  defp find_user(conn, changeset, false) do
-    conn
-    |> put_status(:bad_request)
-    |> render("error.json", error: Errors.errors(changeset))
-  end
 
   @spec convert(Plug.Conn.t(), nil | maybe_improper_list | map) :: Plug.Conn.t()
   def convert(conn, body) do
@@ -60,30 +33,6 @@ defmodule CurrencyconverterWeb.ConverterController do
     conn
     |> put_status(:bad_request)
     |> render("error.json", error: Errors.errors(changeset))
-  end
-
-  @spec is_number_valid?(binary) :: boolean
-  def is_number_valid?(amount) do
-    float = Float.parse(amount)
-
-    cond do
-      float == :error ->
-        false
-
-      float |> elem(1) != "" ->
-        false
-
-      true ->
-        true
-    end
-  end
-
-  def is_valid_currency?(currency) do
-    String.length(currency) == 3 and Enum.member?(@allow_currencies, String.upcase(currency))
-  end
-
-  def amount_is_bigger_than_zero?(amount) do
-    Integer.parse(amount) |> elem(0) > 0
   end
 
   def handle_conversion(conn, params) do
@@ -113,6 +62,8 @@ defmodule CurrencyconverterWeb.ConverterController do
       origin_currency_value: transaction.amount,
       user_id: user_id
     }
+
+    IO.inspect(transaction_map)
 
     case Transaction.create_transactions(transaction_map) do
       {:ok, %Transactions{} = transaction_db} ->

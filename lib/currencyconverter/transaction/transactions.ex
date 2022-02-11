@@ -20,7 +20,6 @@ defmodule Currencyconverter.Transaction.Transactions do
     timestamps()
   end
 
-  @doc false
   def changeset(transactions, attrs) do
     transactions
     |> cast(attrs, @required_params)
